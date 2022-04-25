@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    image: tpa-app-dev
+    container_name: tpa-app
+    ports:
+      - ${PORT}:3000
+    volumes:
+      - ./:/app
+  db:
+    image: postgres:14.2-alpine
+    container_name: tpa-db
+    volumes:
+      - ${DB_STORAGE_PATH}:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
