@@ -1,0 +1,11 @@
+FROM node:17-alpine
+
+WORKDIR /app
+
+RUN chown -R node:node /app
+
+EXPOSE ${PORT}
+
+CMD [ "tail", "-f", ">", "/dev/null"]
+
+
