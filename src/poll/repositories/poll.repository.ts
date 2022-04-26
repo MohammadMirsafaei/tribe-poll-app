@@ -13,4 +13,8 @@ export class PollRepository extends Repository<Poll> {
     });
     return this.save(poll);
   }
+
+  async getUserPolls(user: User): Promise<Poll[]> {
+    return this.find({ where: { user } });
+  }
 }

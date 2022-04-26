@@ -7,6 +7,7 @@ import { AnswerInput } from './inputs/answer.input';
 import { CreatePollInput } from './inputs/create-poll.input';
 import { PollService } from './poll.service';
 import { AnswerType } from './types/answer.type';
+import { PollWithResultType } from './types/poll-with-result.type';
 import { PollType } from './types/poll.type';
 
 @Resolver()
@@ -15,8 +16,17 @@ export class PollResolver {
 
   @Query(() => [PollType])
   @UseGuards(GqlGuard)
-  async polls(): Promise<PollType[]> {
-    return [];
+  async polls(@GetUser() user: User): Promise<PollType[]> {
+    return this.pollService.getPolls(user);
+  }
+
+  @Query(() => PollWithResultType)
+  @UseGuards(GqlGuard)
+  async getPoll(
+    @GetUser() user: User,
+    @Args('pollId') pollId: string,
+  ): Promise<PollWithResultType> {
+    return this.pollService.getPoll(user, pollId);
   }
 
   @Mutation(() => PollType)

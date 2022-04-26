@@ -2,6 +2,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,6 +16,7 @@ import { AnswerRepository } from './repositories/answer.repository';
 import { OptionRepository } from './repositories/option.repository';
 import { PollRepository } from './repositories/poll.repository';
 import { AnswerType } from './types/answer.type';
+import { PollWithResultType } from './types/poll-with-result.type';
 import { PollType } from './types/poll.type';
 
 @Injectable()
@@ -87,7 +89,7 @@ export class PollService {
     }
 
     if (!poll) {
-      throw new UnprocessableEntityException('Invalid pollId');
+      throw new NotFoundException('Invalid pollId');
     }
 
     try {
@@ -101,7 +103,7 @@ export class PollService {
     }
 
     if (!option) {
-      throw new UnprocessableEntityException('Invalid optionId');
+      throw new NotFoundException('Invalid optionId');
     }
 
     let result: boolean;
@@ -127,5 +129,41 @@ export class PollService {
     }
 
     return this.answerRepository.createAnswer(poll, option, memberId);
+  }
+
+  async getPolls(user: User): Promise<PollType[]> {
+    return this.pollRepository.getUserPolls(user);
+  }
+
+  async getPoll(user: User, pollId: string): Promise<PollWithResultType> {
+    let poll: Poll;
+
+    try {
+      poll = await this.pollRepository.findOne(pollId, {
+        relations: ['user', 'answers', 'answers.option', 'options'],
+        loadEagerRelations: true,
+      });
+    } catch (error) {
+      this.logger.error(
+        `Error while poll validation for userId: ${user.id} with pollId: ${pollId}`,
+        error.stack,
+      );
+      throw new InternalServerErrorException();
+    }
+
+    if (!poll || poll.user.id !== user.id) {
+      throw new NotFoundException('Invalid pollId');
+    }
+
+    const results = poll.options.map((option) => ({
+      option,
+      value:
+        Math.round(
+          poll.answers.filter((answer) => answer.option.id === option.id)
+            .length / poll.answers.length,
+        ) * 100,
+    }));
+
+    return { ...poll, results };
   }
 }

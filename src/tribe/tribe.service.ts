@@ -5,12 +5,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TribeClient } from '@tribeplatform/gql-client';
-import {
-  MemberStatusInput,
-  PostMappingTypeEnum,
-} from '@tribeplatform/gql-client/types';
+import { PostMappingTypeEnum } from '@tribeplatform/gql-client/types';
 import { Poll } from 'src/poll/entities/poll.entity';
-import { threadId } from 'worker_threads';
 import { SpaceType } from './types/space.type';
 
 @Injectable()
