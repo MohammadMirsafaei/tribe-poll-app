@@ -13,4 +13,9 @@ export class AnswerRepository extends Repository<Answer> {
     const answer = this.create({ poll, option, memberId });
     return this.save(answer);
   }
+
+  async participated(poll: Poll, memberId: string): Promise<boolean> {
+    const answer = await this.findOne({ poll, memberId });
+    return answer ? true : false;
+  }
 }

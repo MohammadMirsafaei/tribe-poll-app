@@ -128,6 +128,9 @@ export class PollService {
       throw new UnprocessableEntityException('Invalid memberId');
     }
 
+    if (await this.answerRepository.participated(poll, memberId)) {
+      throw new UnprocessableEntityException('You have vouted already');
+    }
     return this.answerRepository.createAnswer(poll, option, memberId);
   }
 
