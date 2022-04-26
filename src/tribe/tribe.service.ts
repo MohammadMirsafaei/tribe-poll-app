@@ -74,7 +74,7 @@ export class TribeService {
       </p>
       <form id="pollAppFrm" data-form-id="${poll.id}">
           ${poll.options.map(
-      (option) => `
+            (option) => `
             <label class="relative flex items-start">
                 <div class="flex items-center h-5">
                     <input type="radio" value="${option.id}" class=" h-4 w-4 rounded text-actionPrimary-600 focus:outline-none focus:ring-transparent focus-visible:ring-actionPrimary-500 border-basicSurface-300/25" name="response">
@@ -82,8 +82,10 @@ export class TribeService {
                 <div class="ml-3 text-sm text-basicSurface-500">${option.title}</div>
             </label>
           `,
-    )}
-          <button id="pollBtn-1" class="items-center relative focus:outline-none focus-visible:ring text-basicSurface-500 bg-surface-50 hover:bg-surface-100 font-medium shadow-sm px-4 py-2 text-sm rounded-md border border-basicSurface-300/25 w-full flex justify-center group">
+          )}
+          <button id="pollBtn" data-form-id="${
+            poll.id
+          }" class="items-center relative focus:outline-none focus-visible:ring text-basicSurface-500 bg-surface-50 hover:bg-surface-100 font-medium shadow-sm px-4 py-2 text-sm rounded-md border border-basicSurface-300/25 w-full flex justify-center group">
               <span class="flex">
                   <span class="inline-flex items-center">Send</span>
               </span>
