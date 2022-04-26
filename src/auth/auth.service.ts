@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -23,6 +24,9 @@ export class AuthService {
   ) { }
 
   async signup(signupInput: SignupInput): Promise<AuthType> {
+    if (this.usersRepository.findOne({ email: signupInput.email })) {
+      throw new ConflictException('Email already taken');
+    }
     try {
       const user = await this.usersRepository.createUser(signupInput);
       const accessToken = this.generateToken({ id: user.id });
