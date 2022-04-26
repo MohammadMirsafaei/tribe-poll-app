@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { PollModule } from './poll/poll.module';
+import { TribeModule } from './tribe/tribe.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { PollModule } from './poll/poll.module';
     }),
     AuthModule,
     PollModule,
+    TribeModule,
   ],
   controllers: [],
   providers: [],
