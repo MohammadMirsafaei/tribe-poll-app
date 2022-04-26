@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { PollModule } from './poll/poll.module';
 
 @Module({
   imports: [
@@ -17,6 +18,9 @@ import { AuthModule } from './auth/auth.module';
       useFactory: async (configService: ConfigService) => ({
         autoSchemaFile: true,
         playground: configService.get('GQL_PLAYGROUND'),
+        buildSchemaOptions: {
+          dateScalarMode: 'timestamp',
+        },
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -34,8 +38,9 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
     AuthModule,
+    PollModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
