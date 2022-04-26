@@ -73,7 +73,7 @@ export class TribeService {
             (option) => `
             <label class="relative flex items-start">
                 <div class="flex items-center h-5">
-                    <input type="radio" value="${option.id}" class=" h-4 w-4 rounded text-actionPrimary-600 focus:outline-none focus:ring-transparent focus-visible:ring-actionPrimary-500 border-basicSurface-300/25" name="response">
+                    <input type="radio" name="response-${poll.id}" value="${option.id}" class=" h-4 w-4 rounded text-actionPrimary-600 focus:outline-none focus:ring-transparent focus-visible:ring-actionPrimary-500 border-basicSurface-300/25">
                 </div>
                 <div class="ml-3 text-sm text-basicSurface-500">${option.title}</div>
             </label>
