@@ -6,7 +6,11 @@ import { CreatePollInput } from '../inputs/create-poll.input';
 @EntityRepository(Poll)
 export class PollRepository extends Repository<Poll> {
   async createPoll(user: User, data: CreatePollInput): Promise<Poll> {
-    const poll = this.create(data);
+    const poll = this.create({
+      ...data,
+      created_at: new Date(),
+      user: user,
+    });
     return this.save(poll);
   }
 }

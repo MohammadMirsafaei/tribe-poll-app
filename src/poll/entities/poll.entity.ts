@@ -1,5 +1,11 @@
 import { User } from 'src/auth/entities/user.entity';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Option } from './option.entity';
 
 @Entity()
@@ -19,9 +25,15 @@ export class Poll {
   @Column('timestamptz')
   created_at: Date;
 
+  @Column()
+  spaceId: string;
+
   @ManyToOne(() => User, (user) => user.polls, { eager: false })
   user: User;
 
-  @OneToMany(() => Option, (option) => option.poll, { eager: true })
+  @OneToMany(() => Option, (option) => option.poll, {
+    eager: true,
+    cascade: ['insert', 'update'],
+  })
   options: Option[];
 }

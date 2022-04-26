@@ -12,10 +12,14 @@ export class CreatePollInput {
   @IsString()
   description: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsDate()
   @IsOptional()
   end: Date;
+
+  @Field()
+  @IsString()
+  spaceId: string;
 
   @Field(() => [OptionInput])
   @IsArray()

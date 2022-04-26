@@ -12,6 +12,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ unique: true })
+  networkId: string;
+
   @OneToMany(() => Poll, (poll) => poll.user, { eager: true })
   polls: Poll[];
 }

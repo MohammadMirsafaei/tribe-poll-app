@@ -13,6 +13,7 @@ import { UsersRepository } from './repositories/users.repository';
 import { AuthType } from './types/auth.types';
 import { TokenType } from './types/token.types';
 import * as bcrypt from 'bcrypt';
+import { LoginInput } from './inputs/login.input';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +25,7 @@ export class AuthService {
   ) { }
 
   async signup(signupInput: SignupInput): Promise<AuthType> {
-    if (this.usersRepository.findOne({ email: signupInput.email })) {
+    if (await this.usersRepository.findOne({ email: signupInput.email })) {
       throw new ConflictException('Email already taken');
     }
     try {
@@ -43,7 +44,7 @@ export class AuthService {
     }
   }
 
-  async login(data: SignupInput): Promise<TokenType> {
+  async login(data: LoginInput): Promise<TokenType> {
     let user, email, password;
 
     try {

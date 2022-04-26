@@ -2,6 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { GqlGuard } from './guards/gqp.guard';
+import { LoginInput } from './inputs/login.input';
 import { SignupInput } from './inputs/signup.input';
 import { AuthType } from './types/auth.types';
 import { TokenType } from './types/token.types';
@@ -17,7 +18,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => TokenType)
-  async login(@Args('data') data: SignupInput): Promise<TokenType> {
+  async login(@Args('data') data: LoginInput): Promise<TokenType> {
     return this.authService.login(data);
   }
 

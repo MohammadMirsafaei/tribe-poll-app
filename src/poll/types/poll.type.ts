@@ -18,6 +18,9 @@ export class PollType {
   @Field()
   created_at: Date;
 
+  @Field()
+  spaceId: string;
+
   @Field(() => [OptionType])
   options: OptionType[];
 }

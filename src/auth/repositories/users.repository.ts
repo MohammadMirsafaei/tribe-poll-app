@@ -6,12 +6,12 @@ import * as bcrypt from 'bcrypt';
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
   async createUser(signupInput: SignupInput): Promise<User> {
-    const { email, password } = signupInput;
+    const { email, password, networkId } = signupInput;
 
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = this.create({ email, password: hashedPassword });
+    const user = this.create({ email, password: hashedPassword, networkId });
     console.log(user);
     return this.save(user);
   }
