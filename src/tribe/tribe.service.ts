@@ -118,15 +118,14 @@ export class TribeService {
     );
   }
 
-  async getMembersIds(networkId: string): Promise<string[]> {
+  async validateMember(networkId: string, memberId: string): Promise<boolean> {
     const token = await this.generateToken(networkId);
-    const members = await this.client.members.list(
-      { limit: 10, status: [MemberStatusInput.VERIFIED] },
-      {
-        fields: 'basic',
-      },
+    const member = await this.client.members.get(
+      { id: memberId },
+      'default',
       token,
     );
-    return members.nodes.map((member) => member.id);
+
+    return member ? true : false;
   }
 }

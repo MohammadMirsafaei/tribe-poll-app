@@ -6,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Answer } from './answer.entity';
 import { Option } from './option.entity';
 
 @Entity()
@@ -36,4 +37,7 @@ export class Poll {
     cascade: ['insert', 'update'],
   })
   options: Option[];
+
+  @OneToMany(() => Answer, (answer) => answer.poll, { eager: true })
+  answers: Answer[];
 }
